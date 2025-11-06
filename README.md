@@ -127,14 +127,14 @@ A continuación se muestran las vistas con capturas. Guarda las imágenes en `do
 > **Nota**: Los totales son absolutos. Para análisis de tasas (por 100.000 hab.), agrega población por territorio/edad.
 
 ### 8.1 Mapa por departamento (coroplético)
-<!-- ![Mapa por departamento](https://github.com/casimiror/mortalidad-colombia-app2/blob/master/docs/mapa_departamento.png) -->
+![Mapa por departamento](https://github.com/casimiror/mortalidad-colombia-app2/blob/master/docs/mapa_departamento.png)
 
 - **Qué muestra**: total de muertes por departamento en 2019.
 - **Cómo leerlo**: tonos más intensos indican mayor mortalidad absoluta. El centro del país (p. ej., Antioquia, Valle del Cauca, Bogotá D.C.) suele concentrar más casos por tamaño poblacional.
 - **Hallazgo clave**: útil para detectar clusters regionales y priorizar vigilancia/recursos.
 
 ### 8.2 Muertes por mes (línea)
-<!-- ![Muertes por mes](docs/muertes_mes.png) -->
+![Muertes por mes](docs/muertes_mes.png)
 
 - **Qué muestra**: evolución mensual del total nacional.
 - **Cómo leerlo**: picos/valles sugieren estacionalidad (clima, epidemias, periodos vacacionales).
