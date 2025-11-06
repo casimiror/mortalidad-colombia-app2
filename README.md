@@ -46,8 +46,8 @@ Instalación rápida de dependencias:
 pip install -r requirements.txt
 ```
 
-## 5) Despliegue (ejemplo en Render)
-**Opción A — Blueprint con `render.yaml` (recomendada)**
+## 5) Despliegue en Render
+**Opción A — Blueprint con `render.yaml` **
 1. **Sube el proyecto a GitHub** (incluye la carpeta `data/` con los 3 Excel y, si quieres mapa, el GeoJSON).
 2. En **Render**: ve a **Blueprints → New Blueprint**, conecta tu repo y confirma la configuración detectada en `render.yaml`.
 3. Render construirá e iniciará el servicio. Copia la **URL pública** para tu entrega.
@@ -58,7 +58,7 @@ pip install -r requirements.txt
    - _Runtime_: Python
    - _Build Command_: `pip install -r requirements.txt`
    - _Start Command_: `gunicorn app:server`
-3. Asegúrate de que `data/` contenga los **3 Excel** y, si usarás mapa, `colombia_departamentos.geojson`.
+3. Asegúrarse de que `data/` contenga los **3 Excel** y, si usarás mapa, `colombia_departamentos.geojson`.
 
 > **Nota sobre el mapa**: Si el GeoJSON no está presente, la pestaña “Mapa por departamento” mostrará **barras por departamento** (fallback). Con el GeoJSON (que debe incluir `properties.COD_DEPTO` = código DIVIPOLA del departamento), se activará el **coroplético**.
 
@@ -152,13 +152,13 @@ A continuación se muestran las vistas con capturas. Guarda las imágenes en `do
 - **Hallazgo clave**: la mayor carga se observa en vejez; útil para planificar cuidados crónicos y salud pública focalizada.
 
 ## 9) Generación del GeoJSON (opcional, para el mapa)
-Si no cuentas con `data/colombia_departamentos.geojson`, ejecuta:
+Si no se cuenta  con `data/colombia_departamentos.geojson`, se debe ejecutar:
 ```bash
 python tools/make_geojson.py
 ```
 El script descarga un GeoJSON base, lo mapea con tu `Divipola.xlsx` y genera un archivo con `properties.COD_DEPTO` listo para `plotly.express.choropleth`.
 
 ## Comentario de entrega (plantilla)
-- **Integrantes**: Nombre completo 1, Nombre completo 2, ...
-- **URL de la app** (PaaS, p. ej., Render): https://...
-- **URL del repositorio** (GitHub): https://github.com/...
+- **Integrantes**: Casimiro Rocha
+- **URL de la app** (PaaS, p. ej., Render): [https://...](https://mortalidad-colombia-2019-x2mo.onrender.com)
+- **URL del repositorio** (GitHub): [https://github.com/...](https://github.com/casimiror/mortalidad-colombia-app2)
