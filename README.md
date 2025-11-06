@@ -160,5 +160,5 @@ El script descarga un GeoJSON base, lo mapea con tu `Divipola.xlsx` y genera un 
 
 ## Comentario de entrega (plantilla)
 - **Integrantes**: Casimiro Rocha
-- **URL de la app** (PaaS, p. ej., Render): [https://mortalidad-colombia-2019-x2mo.onrender.com](https://mortalidad-colombia-2019-x2mo.onrender.com)
+- **URL de la app** (PaaS, p. ej., Render): [https://mortalidad-colombia-2019-x2mo.onrender.com](https://mortalidad-colombia-2019-37px.onrender.com/)
 - **URL del repositorio** (GitHub): [https://github.com/casimiror/mortalidad-colombia-app2](https://github.com/casimiror/mortalidad-colombia-app2)
