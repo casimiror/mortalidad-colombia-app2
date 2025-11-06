@@ -141,35 +141,35 @@ A continuación se muestran las vistas con capturas. Guarda las imágenes en `do
 - **Hallazgo clave**: variaciones graduales con mesetas intermedias; conviene contrastar con eventos sanitarios o climáticos.
 
 ### 8.3 Top 5 ciudades más violentas (barras)
-<!-- ![Top 5 ciudades violentas](docs/top5_violentas.png) -->
+ ![Top 5 ciudades violentas](docs/top5_violentas.png) 
 
 - **Qué muestra**: los 5 municipios con más homicidios según códigos CIE-10 indicados (X93,X94,X95,Y09; se aceptan rangos X93-X95).
 - **Cómo leerlo**: se filtra por prefijo de 3 caracteres para capturar subcódigos (p. ej., X950).
 - **Hallazgo clave**: grandes urbes (Cali, Bogotá, Medellín) concentran los totales más altos; comparar con población para tasas.
 
 ### 8.4 10 ciudades con menor mortalidad (circular)
-<!-- ![10 ciudades menor mortalidad](docs/menor_mortalidad.png) -->
+ ![10 ciudades menor mortalidad](docs/menor_mortalidad.png) 
 
 - **Qué muestra**: municipios con menores totales de muertes.
 - **Cómo leerlo**: útil para contrastes (extremos inferiores) y para validar calidad de registro en territorios pequeños.
 - **Hallazgo clave**: predominan municipios de baja población; contextualizar siempre con tamaño poblacional y cobertura.
 
 ### 8.5 Top 10 causas de muerte (tabla)
-<!-- ![Top 10 causas de muerte](docs/top10_causas.png) -->
+![Top 10 causas de muerte](docs/top10_causas.png) 
 
 - **Qué muestra**: principales causas (código CIE-10, nombre y total), ordenadas de mayor a menor.
 - **Cómo leerlo**: permite identificar causas prioritarias (cardiovasculares, respiratorias, neoplasias, violencias).
 - **Hallazgo clave**: el infarto agudo de miocardio y las enfermedades respiratorias crónicas están entre las primeras posiciones.
 
 ### 8.6 Muertes por sexo por departamento (barras apiladas)
-<!-- ![Muertes por sexo por departamento](docs/muertes_sexo_depto.png) -->
+ ![Muertes por sexo por departamento](docs/muertes_sexo_depto.png)
 
 - **Qué muestra**: comparación de totales por sexo en cada departamento.
 - **Cómo leerlo**: diferencias marcadas pueden sugerir patrones de riesgo diferenciados por territorio (p. ej., violencias, ocupaciones, envejecimiento).
 - **Hallazgo clave**: en varios departamentos la mortalidad masculina es mayor en absolutos; requiere análisis causal y de tasas.
 
 ### 8.7 Distribución por grupo de edad (histograma)
-<!-- ![Distribución por grupo de edad](docs/distribucion_edad.png) -->
+![Distribución por grupo de edad](docs/distribucion_edad.png) 
 
 - **Qué muestra**: remapeo de GRUPO_EDAD1 a categorías del ciclo de vida (neonatal, infantil, niñez, adolescencia, juventud, adultez, vejez, longevidad, desconocida).
 - **Cómo leerlo**: evidencia la concentración de muertes en vejez y longevidad, coherente con estructura poblacional y transición epidemiológica.
