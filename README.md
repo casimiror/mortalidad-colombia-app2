@@ -7,7 +7,7 @@ Esta aplicación web, desarrollada con **Dash/Plotly** en **Python**, permite ex
 Proveer una interfaz visual que:
 - Muestre la **distribución de muertes por departamento** (mapa o barras si no hay GeoJSON).
 - Permita estudiar la **estacionalidad** a través de un **gráfico de líneas** con muertes por mes.
-- Identifique las **5 ciudades con mayor violencia** (homicidios, configurable por códigos CIE-10).
+- Identifique las **5 ciudades con mayor violencia** (homicidios, configurable por códigos CIE-10; se admiten rangos como `X93-X95`).
 - Destaque las **10 ciudades con menor mortalidad** (gráfico circular).
 - Presente una **tabla con las 10 principales causas de muerte** (código, nombre, total).
 - Compare las **muertes por sexo** en cada departamento (barras apiladas).
@@ -21,6 +21,8 @@ mortalidad-colombia-app/
 ├─ render.yaml               # Blueprint para desplegar en Render (PaaS)
 ├─ Procfile                  # Arranque con gunicorn (opcional para algunos PaaS)
 ├─ README.md                 # Este archivo
+├─ tools/
+│  └─ make_geojson.py        # Script para generar el GeoJSON departamental (COD_DEPTO)
 └─ data/                     # Archivos de datos (no versionar si son sensibles)
    ├─ NoFetal2019.xlsx
    ├─ CodigosDeMuerte.xlsx
@@ -96,26 +98,67 @@ pip install -r requirements.txt
 6. Abrir en el navegador: <http://localhost:8050>
 
 ## 8) Visualizaciones con explicaciones de los resultados
-Incluye capturas de pantalla en `docs/` y referencia aquí con rutas relativas.
+A continuación se muestran las vistas con capturas. Guarda las imágenes en `docs/` y actualiza las rutas si cambias los nombres de archivo.
 
-### 8.1 Mapa por departamento (o barras si falta GeoJSON)
-- **Qué muestra**: total de muertes por dpto para el año seleccionado.  
-- **Cómo leerlo**: coroplético (intensidad = mayor mortalidad). Fallback: barras ordenadas.
+> **Nota**: Los totales son absolutos. Para análisis de tasas (por 100.000 hab.), agrega población por territorio/edad.
+
+### 8.1 Mapa por departamento (coroplético)
+<!-- ![Mapa por departamento](docs/mapa_departamento.png) -->
+
+- **Qué muestra**: total de muertes por departamento en 2019.
+- **Cómo leerlo**: tonos más intensos indican mayor mortalidad absoluta. El centro del país (p. ej., Antioquia, Valle del Cauca, Bogotá D.C.) suele concentrar más casos por tamaño poblacional.
+- **Hallazgo clave**: útil para detectar clusters regionales y priorizar vigilancia/recursos.
 
 ### 8.2 Muertes por mes (línea)
-- Evolución mensual y estacionalidad del total de muertes.
+<!-- ![Muertes por mes](docs/muertes_mes.png) -->
+
+- **Qué muestra**: evolución mensual del total nacional.
+- **Cómo leerlo**: picos/valles sugieren estacionalidad (clima, epidemias, periodos vacacionales).
+- **Hallazgo clave**: variaciones graduales con mesetas intermedias; conviene contrastar con eventos sanitarios o climáticos.
 
 ### 8.3 Top 5 ciudades más violentas (barras)
-- Filtra por CIE-10: acepta `X93,X94,X95,Y09` y rangos `X93-X95` (coincidencia por prefijo de 3 caracteres).
+<!-- ![Top 5 ciudades violentas](docs/top5_violentas.png) -->
+
+- **Qué muestra**: los 5 municipios con más homicidios según códigos CIE-10 indicados (X93,X94,X95,Y09; se aceptan rangos X93-X95).
+- **Cómo leerlo**: se filtra por prefijo de 3 caracteres para capturar subcódigos (p. ej., X950).
+- **Hallazgo clave**: grandes urbes (Cali, Bogotá, Medellín) concentran los totales más altos; comparar con población para tasas.
 
 ### 8.4 10 ciudades con menor mortalidad (circular)
-- Menores totales absolutos de mortalidad por municipio.
+<!-- ![10 ciudades menor mortalidad](docs/menor_mortalidad.png) -->
+
+- **Qué muestra**: municipios con menores totales de muertes.
+- **Cómo leerlo**: útil para contrastes (extremos inferiores) y para validar calidad de registro en territorios pequeños.
+- **Hallazgo clave**: predominan municipios de baja población; contextualizar siempre con tamaño poblacional y cobertura.
 
 ### 8.5 Top 10 causas de muerte (tabla)
-- Código CIE-10, nombre y total de casos.
+<!-- ![Top 10 causas de muerte](docs/top10_causas.png) -->
 
-### 8.6 Muertes por sexo por dpto (barras apiladas)
-- Comparación por sexo a nivel departamental.
+- **Qué muestra**: principales causas (código CIE-10, nombre y total), ordenadas de mayor a menor.
+- **Cómo leerlo**: permite identificar causas prioritarias (cardiovasculares, respiratorias, neoplasias, violencias).
+- **Hallazgo clave**: el infarto agudo de miocardio y las enfermedades respiratorias crónicas están entre las primeras posiciones.
+
+### 8.6 Muertes por sexo por departamento (barras apiladas)
+<!-- ![Muertes por sexo por departamento](docs/muertes_sexo_depto.png) -->
+
+- **Qué muestra**: comparación de totales por sexo en cada departamento.
+- **Cómo leerlo**: diferencias marcadas pueden sugerir patrones de riesgo diferenciados por territorio (p. ej., violencias, ocupaciones, envejecimiento).
+- **Hallazgo clave**: en varios departamentos la mortalidad masculina es mayor en absolutos; requiere análisis causal y de tasas.
 
 ### 8.7 Distribución por grupo de edad (histograma)
-- `GRUPO_EDAD1` remapeado a categorías del ciclo de vida.
+<!-- ![Distribución por grupo de edad](docs/distribucion_edad.png) -->
+
+- **Qué muestra**: remapeo de GRUPO_EDAD1 a categorías del ciclo de vida (neonatal, infantil, niñez, adolescencia, juventud, adultez, vejez, longevidad, desconocida).
+- **Cómo leerlo**: evidencia la concentración de muertes en vejez y longevidad, coherente con estructura poblacional y transición epidemiológica.
+- **Hallazgo clave**: la mayor carga se observa en vejez; útil para planificar cuidados crónicos y salud pública focalizada.
+
+## 9) Generación del GeoJSON (opcional, para el mapa)
+Si no cuentas con `data/colombia_departamentos.geojson`, ejecuta:
+```bash
+python tools/make_geojson.py
+```
+El script descarga un GeoJSON base, lo mapea con tu `Divipola.xlsx` y genera un archivo con `properties.COD_DEPTO` listo para `plotly.express.choropleth`.
+
+## Comentario de entrega (plantilla)
+- **Integrantes**: Nombre completo 1, Nombre completo 2, ...
+- **URL de la app** (PaaS, p. ej., Render): https://...
+- **URL del repositorio** (GitHub): https://github.com/...
