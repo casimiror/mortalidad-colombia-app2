@@ -18,7 +18,7 @@ Proveer una interfaz visual que:
 mortalidad-colombia-app/
 ├─ app.py                    # Código principal de la app (Dash)
 ├─ requirements.txt          # Dependencias con versiones
-├─ render.yaml               # Blueprint para desplegar en Render (PaaS)
+├─ render.yaml               # Configuración de variables (referencia para otros PaaS)
 ├─ Procfile                  # Arranque con gunicorn (opcional para algunos PaaS)
 ├─ README.md                 # Este archivo
 ├─ tools/
@@ -46,21 +46,45 @@ Instalación rápida de dependencias:
 pip install -r requirements.txt
 ```
 
-## 5) Despliegue en Render
-**Opción A — Blueprint con `render.yaml` **
-1. **Sube el proyecto a GitHub** (incluye la carpeta `data/` con los 3 Excel y, si quieres mapa, el GeoJSON).
-2. En **Render**: ve a **Blueprints → New Blueprint**, conecta tu repo y confirma la configuración detectada en `render.yaml`.
-3. Render construirá e iniciará el servicio. Copia la **URL pública** para tu entrega.
+## 5) Despliegue en DigitalOcean App Platform
+**Pasos para desplegar desde GitHub:**
 
-**Opción B — Servicio Web manual**
-1. En **Render → New + → Web Service**, conecta el repo.  
-2. Configura:
-   - _Runtime_: Python
-   - _Build Command_: `pip install -r requirements.txt`
-   - _Start Command_: `gunicorn app:server`
-3. Asegúrarse de que `data/` contenga los **3 Excel** y, si usarás mapa, `colombia_departamentos.geojson`.
+1. **Sube el proyecto a GitHub** (incluye la carpeta `data/` con los 3 Excel y, si quieres mapa, el GeoJSON).
+
+2. **Accede a DigitalOcean App Platform**:
+   - Ve a [DigitalOcean Apps](https://cloud.digitalocean.com/apps)
+   - Haz clic en **"Create App"**
+
+3. **Conecta tu repositorio**:
+   - Selecciona **GitHub** como fuente
+   - Autoriza DigitalOcean para acceder a tu cuenta de GitHub
+   - Selecciona el repositorio del proyecto
+   - Elige la rama principal (main/master)
+
+4. **Configuración automática**:
+   - DigitalOcean detectará automáticamente que es una aplicación Python
+   - Confirma la configuración detectada:
+     - **Build Command**: `pip install -r requirements.txt`
+     - **Run Command**: `gunicorn app:server --bind 0.0.0.0:$PORT`
+
+5. **Variables de entorno** (opcional):
+   - Puedes agregar las variables definidas en `render.yaml` si es necesario
+   - `DATA_DIR=data`, `MORTALITY_FILE=NoFetal2019.xlsx`, etc.
+
+6. **Despliegue**:
+   - Revisa la configuración y haz clic en **"Create Resources"**
+   - DigitalOcean construirá e iniciará la aplicación automáticamente
+   - Una vez completado, obtendrás una **URL pública** para tu aplicación
+
+7. **Asegúrate** de que la carpeta `data/` contenga:
+   - `NoFetal2019.xlsx` (EEVV 2019, no fetal)
+   - `CodigosDeMuerte.xlsx` (catálogo CIE-10)  
+   - `Divipola.xlsx` (DIVIPOLA)
+   - `colombia_departamentos.geojson` (opcional, para mapa coroplético)
 
 > **Nota sobre el mapa**: Si el GeoJSON no está presente, la pestaña “Mapa por departamento” mostrará **barras por departamento** (fallback). Con el GeoJSON (que debe incluir `properties.COD_DEPTO` = código DIVIPOLA del departamento), se activará el **coroplético**.
+
+> **Ventajas de DigitalOcean App Platform**: Despliegue automático desde GitHub, escalado automático, SSL gratuito, y integración con el ecosistema DigitalOcean.
 
 ## 6) Software utilizado
 - **Python**
@@ -160,5 +184,5 @@ El script descarga un GeoJSON base, lo mapea con tu `Divipola.xlsx` y genera un 
 
 ## Comentario de entrega (plantilla)
 - **Integrantes**: Casimiro Rocha
-- **URL de la app** (PaaS, p. ej., Render): [https://mortalidad-colombia-2019-x2mo.onrender.com](https://mortalidad-colombia-2019-37px.onrender.com/)
+- **URL de la app** (PaaS, p. ej., Render): [https://seashell-app-7l5mu.ondigitalocean.app/](https://seashell-app-7l5mu.ondigitalocean.app/)
 - **URL del repositorio** (GitHub): [https://github.com/casimiror/mortalidad-colombia-app2](https://github.com/casimiror/mortalidad-colombia-app2)
